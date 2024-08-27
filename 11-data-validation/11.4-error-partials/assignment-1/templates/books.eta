@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Books</title>
+  </head>
+  <body>
+     <% if (it?.errors?.name?._errors) { %>
+      <p>Name validation errors:</p>
+      <ul>
+        <% it?.errors?.name?._errors.forEach((error) => { %>
+        <li><%= error %></li>
+        <% }); %>
+      </ul>
+    <% } %>
+
+    <% if (it?.errors?.pages?._errors) { %>
+      <p>Pages validation errors:</p>
+      <ul>
+        <% it?.errors?.pages?._errors.forEach((error) => { %>
+        <li><%= error %></li>
+        <% }); %>
+      </ul>
+    <% } %>
+
+    <% if (it?.errors?.isbn?._errors) { %>
+      <p>ISBN validation errors:</p>
+      <ul>
+        <% it?.errors?.isbn?._errors.forEach((error) => { %>
+        <li><%= error %></li>
+        <% }); %>
+      </ul>
+     <% } %> 
+
+    <form method="POST" action="/books">
+      <label for="name">Book name:</label>
+      <input type="text" id="name" name="name" value="<%= it?.name ?? '' %>"/><br/>
+      <label for="pages">Number of pages:</label>
+      <input type="text" id="pages" name="pages" value="<%= it?.pages ?? '' %>"/><br/>
+      <label for="isbn">ISBN:</label>
+      <input type="text" id="isbn" name="isbn" value="<%= it?.isbn ?? '' %>"/><br/>
+      <input type="submit" value="Add" />
+    </form>
+    <p>Existing books:</p>
+    <ul>
+    <% it.books.forEach((book) => { %>
+      <li>
+        <a href="/books/<%= book.id %>"><%= book.name %></a>
+        <form method="POST" action="/books/<%= book.id %>/delete">
+          <input type="submit" value="Delete" />
+        </form>
+      </li>
+    <% }); %>
+    </ul>
+  </body>
+</html>
